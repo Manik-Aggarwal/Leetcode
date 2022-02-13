@@ -19,7 +19,7 @@ public:
                 i++;
                 j++;
             }
-            else if((i<n && j<m) && nums1[i]<nums2[j]){
+            else if(nums1[i]<nums2[j]){
                 i++;
             }
             else j++;
