@@ -19,16 +19,37 @@ public:
         return len;
     }
     
-    ListNode* middleNode(ListNode* head) {
-        int len = getLength(head);
-        int ans = len/2;
-        ListNode* temp = head;
+//     ListNode* middleNode(ListNode* head) {
+//         int len = getLength(head);
+//         int ans = len/2;
+//         ListNode* temp = head;
         
-        int count = 0;
-        while(count<ans){
-            temp = temp->next;
-            count++;
+//         int count = 0;
+//         while(count<ans){
+//             temp = temp->next;
+//             count++;
+//         }
+//         return temp;
+//     }
+    
+    ListNode* getMiddle(ListNode* head){
+        if(head == NULL || head->next == NULL) return head;
+        
+        if(head->next->next == NULL) return head->next;
+        
+        ListNode* onestep = head;
+        ListNode* twostep = head->next;
+        
+        while(twostep!=NULL){
+            twostep = twostep->next;
+            if(twostep!=NULL) twostep = twostep->next;
+            
+            onestep = onestep->next;
         }
-        return temp;
+        return onestep;
+    }
+    
+    ListNode* middleNode(ListNode* head) {
+        return getMiddle(head);
     }
 };
