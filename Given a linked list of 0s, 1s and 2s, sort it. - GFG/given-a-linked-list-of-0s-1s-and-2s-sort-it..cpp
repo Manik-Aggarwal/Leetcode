@@ -33,35 +33,76 @@ class Solution
 {
     public:
     //Function to sort a linked list of 0s, 1s and 2s.
-    Node* segregate(Node *head) {
+    // approach 1
+    // Node* segregate(Node *head) {
+    //     Node* temp = head;
+    //     int count0 = 0, count1 = 0, count2 = 0;
+        
+    //     while(temp!=NULL){
+    //         if(temp->data == 0) count0++;
+    //         else if(temp->data == 1) count1++;
+    //         else count2++;
+            
+    //         temp = temp->next;
+    //     }
+    //     temp = head;
+    //     while(temp!=NULL){
+    //         if(count0){
+    //             temp->data = 0;
+    //             count0--;
+    //         }
+    //         else if(count1){
+    //             temp->data = 1;
+    //             count1--;
+    //         }
+    //         else{
+    //             temp->data = 2;
+    //             count2--;
+    //         }
+            
+    //         temp = temp->next;
+    //     }
+        
+    //     return head;
+    // }
+    
+    //approach 2
+    Node* segregate(Node *head){
+        Node* dummy0 = new Node(-1);
+        Node* dummy1 = new Node(-1);
+        Node* dummy2 = new Node(-1);
+        Node* tail0 = dummy0;
+        Node* tail1 = dummy1;
+        Node* tail2 = dummy2;
         Node* temp = head;
-        int count0 = 0, count1 = 0, count2 = 0;
         
         while(temp!=NULL){
-            if(temp->data == 0) count0++;
-            else if(temp->data == 1) count1++;
-            else count2++;
-            
-            temp = temp->next;
-        }
-        temp = head;
-        while(temp!=NULL){
-            if(count0){
-                temp->data = 0;
-                count0--;
+            if(temp->data == 0){
+                tail0->next = temp;
+                tail0 = temp;
             }
-            else if(count1){
-                temp->data = 1;
-                count1--;
+            else if(temp->data == 1){
+                tail1->next = temp;
+                tail1 = temp;
             }
             else{
-                temp->data = 2;
-                count2--;
+                tail2->next = temp;
+                tail2 = temp;
             }
-            
             temp = temp->next;
         }
         
+        //merging all LL
+        if(dummy1->next != NULL) tail0->next = dummy1->next;
+        else tail0->next = dummy2->next;
+        tail1->next = dummy2->next;
+        tail2->next = NULL;
+        
+        head = dummy0->next;
+        
+        delete dummy0;
+        delete dummy1;
+        delete dummy2;
         return head;
     }
 };
