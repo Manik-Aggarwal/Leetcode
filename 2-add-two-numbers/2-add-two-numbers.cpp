@@ -10,20 +10,6 @@
  */
 class Solution {
 private:
-    ListNode* reverse(ListNode* head){
-            ListNode* curr = head;
-            ListNode* prev = NULL;
-            ListNode* nex = NULL;
-
-            while(curr){
-                nex = curr->next;
-                curr->next = prev;
-                prev = curr;
-                curr = nex;
-            }
-            return prev;
-        }
-    
     void insertAtTail(ListNode* &head, ListNode* &tail, int data){
         ListNode* temp = new ListNode(data);
         if(head==NULL){
@@ -42,44 +28,26 @@ private:
         ListNode* anstail = NULL;
         int carry = 0;
         
-        while(l1!=NULL && l2!=NULL){
-            int sum = carry + l1->val + l2->val;
+        while(l1!=NULL || l2!=NULL || carry!=0){
+            int val1 = 0;
+            int val2 = 0;
+
+            if(l1 != NULL) val1 = l1->val;
+            if(l2 != NULL) val2 = l2->val;
+            
+            int sum = carry + val1 + val2;
             int digit = sum%10;
             insertAtTail(anshead,anstail,digit);
             carry = sum/10;
-            l1 = l1->next;
-            l2 = l2->next;
-        }
-        while(l1!=NULL){
-            int sum = carry + l1->val;
-            int digit = sum%10;
-            insertAtTail(anshead,anstail,digit);
-            carry = sum/10;
-            l1 = l1->next;
-        }
-        while(l2!=NULL){
-            int sum = carry + l2->val;
-            int digit = sum%10;
-            insertAtTail(anshead,anstail,digit);
-            carry = sum/10;
-            l2 = l2->next;
-        }
-        //case when both list cam to null but carry is remaining
-        while(carry!=0){
-            int sum = carry;
-            int digit = sum%10;
-            insertAtTail(anshead,anstail,digit);
-            carry = sum/10;
+            
+            if(l1 != NULL) l1 = l1->next;
+            if(l2 != NULL) l2 = l2->next;
         }
         return anshead;
     }
     
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        //reverse the LL
-        // l1 = reverse(l1);
-        // l2 = reverse(l2);
-        
         ListNode* ans = add(l1,l2);
         return ans;
     }
