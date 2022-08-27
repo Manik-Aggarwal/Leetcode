@@ -9,14 +9,14 @@ public:
             sum += y;
             int x = sum - k;
             
-            std::cout<<x<<",";
+            // std::cout<<x<<",";
             if(mp.find(x) != mp.end()) ans += mp[x];
             
             mp[sum]++;
         }
         
-        std::cout<<endl;
-        for(auto in:mp) std::cout<<in.first<<",";
+        // std::cout<<endl;
+        // for(auto in:mp) std::cout<<in.first<<",";
         
         return ans;
     }
