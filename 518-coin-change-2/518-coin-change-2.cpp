@@ -42,26 +42,53 @@
 // };
 
 //////////////////////////////////Tabulation////////////////////////////////
+// class Solution {
+// public:    
+//     int change(int amount, vector<int>& coins) {
+//         int n = coins.size();
+//         vector<vector<int>> dp(n, vector<int> (amount+1,0));
+        
+//         for(int tar = 0; tar<=amount; tar++){
+//             if(tar%coins[0] == 0) dp[0][tar] = 1;
+//         }
+        
+//         for(int ind = 1; ind<n; ind++){
+//             for(int tar = 0; tar<=amount; tar++){
+//                 int notTake = 0 + dp[ind-1][tar];
+//                 int take = 0;
+//                 if(coins[ind] <= tar) take = dp[ind][tar-coins[ind]];
+
+//                 dp[ind][tar] = take + notTake;
+//             }
+//         }
+        
+//         return dp[n-1][amount];
+//     }
+// };
+
+//////////////////////////////////Space Optimisation////////////////////////////////
 class Solution {
 public:    
     int change(int amount, vector<int>& coins) {
         int n = coins.size();
-        vector<vector<int>> dp(n, vector<int> (amount+1,0));
+        vector<int> prev(amount+1,0);
+        vector<int> curr(amount+1,0);
         
         for(int tar = 0; tar<=amount; tar++){
-            if(tar%coins[0] == 0) dp[0][tar] = 1;
+            if(tar%coins[0] == 0) prev[tar] = 1;
         }
         
         for(int ind = 1; ind<n; ind++){
             for(int tar = 0; tar<=amount; tar++){
-                int notTake = 0 + dp[ind-1][tar];
+                int notTake = 0 + prev[tar];
                 int take = 0;
-                if(coins[ind] <= tar) take = dp[ind][tar-coins[ind]];
+                if(coins[ind] <= tar) take = curr[tar-coins[ind]];
 
-                dp[ind][tar] = take + notTake;
+                curr[tar] = take + notTake;
             }
+            prev = curr;
         }
         
-        return dp[n-1][amount];
+        return prev[amount];
     }
 };
