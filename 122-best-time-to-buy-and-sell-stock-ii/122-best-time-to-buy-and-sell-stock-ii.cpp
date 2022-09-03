@@ -28,32 +28,63 @@
 //     }
 // };
 
-///////////////////////////Tabulation////////////////////////////////
+ //////////////////////////Tabulation////////////////////////////////
+// class Solution {
+// public:
+//     int maxProfit(vector<int>& prices) {
+//         int n = prices.size();
+//         vector<vector<int>> dp(n+1,vector<int>(2,0)); //2 bcoz we can buy or sell
+        
+//         for(int ind = n-1; ind>=0; ind--){
+//             for(int buy=0; buy<2; buy++){
+//                 int profit = 0;
+        
+//                 if(buy){
+//                     int take = -prices[ind] + dp[ind+1][0];
+//                     int notTake = 0 + dp[ind+1][1];
+//                     profit = max(take,notTake);
+//                 }
+//                 else{
+//                     int sell = prices[ind] + dp[ind+1][1];
+//                     int notsell = 0 + dp[ind+1][0];
+//                     profit = max(sell,notsell);
+//                 }
+
+//                 dp[ind][buy] = profit;
+//             }
+//         }
+        
+//         return dp[0][1];
+//     }
+// };
+
+///////////////////////////Space Optimisation////////////////////////////////
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
         int n = prices.size();
-        vector<vector<int>> dp(n+1,vector<int>(2,0)); //2 bcoz we can buy or sell
+        vector<int> ahead(2,0), curr(2.0);
         
         for(int ind = n-1; ind>=0; ind--){
             for(int buy=0; buy<2; buy++){
                 int profit = 0;
         
                 if(buy){
-                    int take = -prices[ind] + dp[ind+1][0];
-                    int notTake = 0 + dp[ind+1][1];
+                    int take = -prices[ind] + ahead[0];
+                    int notTake = 0 + ahead[1];
                     profit = max(take,notTake);
                 }
                 else{
-                    int sell = prices[ind] + dp[ind+1][1];
-                    int notsell = 0 + dp[ind+1][0];
+                    int sell = prices[ind] + ahead[1];
+                    int notsell = 0 + ahead[0];
                     profit = max(sell,notsell);
                 }
 
-                dp[ind][buy] = profit;
+                curr[buy] = profit;
             }
+            ahead = curr;
         }
         
-        return dp[0][1];
+        return curr[1];
     }
 };
