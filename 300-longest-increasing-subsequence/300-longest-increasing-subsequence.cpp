@@ -40,24 +40,48 @@
 //     }
 // };
 
-/////////////////////////////Memoization///////////////////////////////////////
+/////////////////////////////Tabulation///////////////////////////////////////
+// class Solution {
+// public:
+//     int lengthOfLIS(vector<int>& nums) {
+//         int n = nums.size();
+//         vector<vector<int>> dp(n+1, vector<int>(n+1,0));
+        
+//         for(int ind = n-1; ind >= 0; ind--){
+//             for(int prevInd = ind-1; prevInd>=-1; prevInd--){
+//                 int notTake = dp[ind+1][prevInd+1];
+        
+//                 int take = 0;
+//                 if(prevInd == -1 || nums[ind]>nums[prevInd]) take = 1 + dp[ind+1][ind+1];
+                
+//                 dp[ind][prevInd+1] = max(take,notTake);
+//             }
+//         }
+        
+//         return dp[0][-1+1];
+//     }
+// };
+
+/////////////////////////////SPace Optimisation///////////////////////////////////////
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
-        vector<vector<int>> dp(n+1, vector<int>(n+1,0));
+        vector<int> next(n+1,0);
+        vector<int> curr(n+1,0);
         
         for(int ind = n-1; ind >= 0; ind--){
             for(int prevInd = ind-1; prevInd>=-1; prevInd--){
-                int notTake = dp[ind+1][prevInd+1];
+                int notTake = next[prevInd+1];
         
                 int take = 0;
-                if(prevInd == -1 || nums[ind]>nums[prevInd]) take = 1 + dp[ind+1][ind+1];
+                if(prevInd == -1 || nums[ind]>nums[prevInd]) take = 1 + next[ind+1];
                 
-                dp[ind][prevInd+1] = max(take,notTake);
+                curr[prevInd+1] = max(take,notTake);
             }
+            next = curr;
         }
         
-        return dp[0][-1+1];
+        return curr[-1+1];
     }
 };
