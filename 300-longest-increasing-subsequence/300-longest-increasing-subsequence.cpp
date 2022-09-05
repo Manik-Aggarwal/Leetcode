@@ -108,52 +108,71 @@
 
 
 //////////////////printing lis///////////////////////
+// class Solution {
+// public:
+//     int lengthOfLIS(vector<int>& nums) {
+//         int n = nums.size();
+//         vector<int> dp(n,1);
+//         vector<int> hash(n,1);
+
+//         for(int i=0; i<=n-1; i++){
+//             hash[i] = i;
+//             for(int prev_index = 0; prev_index <=i-1; prev_index ++){
+
+//                 if(nums[prev_index]<nums[i] && 1 + dp[prev_index] > dp[i]){
+//                     dp[i] = 1 + dp[prev_index];
+//                     hash[i] = prev_index;
+//                 }
+//             }
+//         }
+
+//         int ans = -1;
+//         int lastIndex =-1;
+        
+//         //find max from dp array and index of max elem
+//         for(int i=0; i<=n-1; i++){
+//             if(dp[i]> ans){
+//                 ans = dp[i];
+//                 lastIndex = i;
+//             }
+//         }
+
+//         vector<int> temp;
+//         temp.push_back(nums[lastIndex]);
+
+//         while(hash[lastIndex] != lastIndex){
+//             lastIndex = hash[lastIndex];
+//             temp.push_back(nums[lastIndex]);    
+//         }
+
+//         reverse(temp.begin(),temp.end());
+        
+//         for(int i=0; i<temp.size(); i++) std::cout<<temp[i]<<" ";
+//         std::cout<<endl;
+
+//         return ans;
+//     }
+// };
+
+//////////////////////////Binary Search////////////////////////////////
 class Solution {
-public:
+public:    
     int lengthOfLIS(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> dp(n,1);
-        vector<int> hash(n,1);
-
-        for(int i=0; i<=n-1; i++){
-            hash[i] = i;
-            for(int prev_index = 0; prev_index <=i-1; prev_index ++){
-
-                if(nums[prev_index]<nums[i] && 1 + dp[prev_index] > dp[i]){
-                    dp[i] = 1 + dp[prev_index];
-                    hash[i] = prev_index;
-                }
-            }
-        }
-
-        int ans = -1;
-        int lastIndex =-1;
-        
-        //find max from dp array and index of max elem
-        for(int i=0; i<=n-1; i++){
-            if(dp[i]> ans){
-                ans = dp[i];
-                lastIndex = i;
-            }
-        }
-
         vector<int> temp;
-        temp.push_back(nums[lastIndex]);
-
-        while(hash[lastIndex] != lastIndex){
-            lastIndex = hash[lastIndex];
-            temp.push_back(nums[lastIndex]);    
-        }
-
-        reverse(temp.begin(),temp.end());
+        int len = 1;
+        temp.push_back(nums[0]);
         
-        for(int i=0; i<temp.size(); i++) std::cout<<temp[i]<<" ";
-        std::cout<<endl;
-
-        return ans;
+        for(int i=1; i<nums.size(); i++){
+            if(nums[i] > temp.back()){
+                temp.push_back(nums[i]);
+                len++;
+            }
+            else{
+                int j = lower_bound(temp.begin(),temp.end(),nums[i]) - temp.begin();
+                temp[j] = nums[i];
+            }
+        }
+        
+        return len;
     }
 };
-
-
-
-
