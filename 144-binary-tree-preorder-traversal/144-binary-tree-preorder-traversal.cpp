@@ -10,6 +10,25 @@
  * };
  */
 //////////////////////////Recursion////////////////////////////////
+// class Solution {
+// public:
+//     void solve(TreeNode* node, vector<int> &ans){
+//         if(!node) return;
+        
+//         ans.push_back(node->val);
+//         solve(node->left, ans);
+//         solve(node->right, ans);   
+//     }
+    
+//     vector<int> preorderTraversal(TreeNode* root) {
+//         vector<int> ans;
+//         solve(root,ans);
+        
+//         return ans;
+//     }
+// };
+
+////////////////////Iterative///////////////////////////////////////
 class Solution {
 public:    
     vector<int> preorderTraversal(TreeNode* root) {
