@@ -9,14 +9,42 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+////////////////////////Recursion/////////////////////////
+// class Solution {
+// public:
+//     int maxDepth(TreeNode* root) {
+//         if(!root) return 0;
+        
+//         int lft = maxDepth(root->left);
+//         int rght = maxDepth(root->right);
+        
+//         return 1 + max(lft,rght);
+//     }
+// };
+
+///////////////////////Level Order////////////////////////
 class Solution {
 public:
     int maxDepth(TreeNode* root) {
+        int depth = 0;
         if(!root) return 0;
+        queue<TreeNode*> q;
+        q.push(root);
         
-        int lft = maxDepth(root->left);
-        int rght = maxDepth(root->right);
+        while(!q.empty()){
+            int n = q.size();
+            depth++;
+            
+            for(int i=0; i<n; i++){
+                TreeNode* node = q.front();
+                q.pop();
+                
+                if(node->left) q.push(node->left);
+                if(node->right) q.push(node->right);
+            }
+        }
         
-        return 1 + max(lft,rght);
+        return depth;
     }
 };
