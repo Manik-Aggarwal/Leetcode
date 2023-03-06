@@ -26,7 +26,8 @@ class Solution
                 if(itr->second == 3) vect.push_back(itr->first);
             }
             
-            return vect;
+            if(vect.size() == 0) return {-1};
+            else return vect;
         }
 };
 
